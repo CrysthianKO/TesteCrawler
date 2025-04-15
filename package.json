@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "puppeteer": "^24.6.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  },
+  "scripts": {
+    "dev": "npx nodemon --watch 'src/**/*.ts' --exec 'npx ts-node src/index.ts'"
+  }
+}
