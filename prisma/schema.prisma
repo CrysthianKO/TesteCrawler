@@ -13,3 +13,27 @@ datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
+
+model Quote {
+  id       Int    @id @default(autoincrement())
+  text     String
+  authorId Int
+  author   Author @relation(fields: [authorId], references: [id])
+  tags     Tag[]  @relation("QuoteTags")
+}
+
+model Author {
+  id     Int     @id @default(autoincrement())
+  name   String
+  birth  String
+  death  String?
+  genre  String
+  about  String
+  quotes Quote[]
+}
+
+model Tag {
+  id     Int     @id @default(autoincrement())
+  name   String
+  quotes Quote[] @relation("QuoteTags")
+}
