@@ -19,7 +19,7 @@ model Quote {
   text     String
   authorId Int
   author   Author @relation(fields: [authorId], references: [id])
-  tags     Tag[]  @relation("QuoteTags")
+  tags     Tag[]
 }
 
 model Author {
@@ -34,6 +34,6 @@ model Author {
 
 model Tag {
   id     Int     @id @default(autoincrement())
-  name   String
-  quotes Quote[] @relation("QuoteTags")
+  name   String  @unique
+  quotes Quote[]
 }

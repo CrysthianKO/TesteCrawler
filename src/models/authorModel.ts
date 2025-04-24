@@ -1,47 +1,33 @@
-import { PrismaClient } from "../generated/prisma" 
+import { PrismaClient } from "../generated/prisma";
+import Author from "../interfaces/authorInterface";
 
 const prisma = new PrismaClient();
 
-const findAuthor = async (name: string, born: string) => {
-  await prisma.author.findFirst({
-    where: { 
+const findAuthor = async (name: string) => {
+  return await prisma.author.findFirst({
+    where: {
       name: name,
-      birth: born,
-    }
-  })
-}
+    },
+  });
+};
 
 const createAuthor = async (data: Author) => {
-    const { name, birth, death, genre, about } = data;
+  const authorExists = await findAuthor(data.name);
 
+  if (authorExists) {
+    return authorExists;
+  } else {
+    const author = {
+      name: data.name,
+      birth: data.birth,
+      death: data.death,
+      genre: data.genre,
+      about: data.about,
+    };
     return await prisma.author.create({
-        data: {
-            name: name,
-            birth: birth,
-            death: death,
-            genre: genre,
-            about: about
-        },
-      })
-};
-
-interface Author {
-    name: string,
-    birth: string,
-    death: string|null,
-    genre: string,
-    about: string,
-    quotes: [Quote],
+      data: author,
+    });
   }
-
-interface Quote {
-    text: string,
-    author: Author,
-    authorId: number,
-    tags: (string|null)[];
-  };
-
-export {
-  findAuthor,
-  createAuthor
 };
+
+export { findAuthor, createAuthor };
